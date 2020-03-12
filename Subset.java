@@ -16,15 +16,22 @@ class Subset{
     // setToString(B)
     // Called from recursive function printSubsets and returns a String
     static String setToString(int[] B){
-        // create a string a that will print out the output
-        String a = "{";
+        // create a string a that will print out the out put
+        String rstr = "{";
+        // create a string that will make it easier to add "," after each iter
+        String a = "";
         for(int i = 1; i < B.length; i++){
             if(B[i] == 1){
-                a += i;
+                a += i;   
             }
         }
-        a += "}";
-        return a;
+        for(int i = 0; i < a.length() - 1; i ++) {
+            char c = a.charAt(i);
+            rstr += c + ", ";
+        }
+        rstr += a.charAt(a.length()-1);
+        rstr += "}";
+        return rstr;
     }
 
     // printSubsets(B,k,i)
@@ -49,7 +56,7 @@ class Subset{
         printSubsets(A, k-1, i+1);
         printSubsets(B,k,i+1);
     }
-    
+
     public static void main(String[] args){
         int n = 0;
         int k = 0;
