@@ -13,27 +13,25 @@ class Subset{
         System.exit(0);
     }
 
+    // setToString(B)
+    // Called from recursive function printSubsets and returns a String
     static String setToString(int[] B){
+        // create a string a that will print out the output
         String a = "{";
-        //System.out.print("{");
-        //for(int i = 1; i < B.length; i++){
-        //    System.out.print(B[i]);
-        //}
-        //System.out.println("}");
         for(int i = 1; i < B.length; i++){
             if(B[i] == 1){
                 a += i;
             }
         }
         a += "}";
-        //System.out.println("a is: " + a);
         return a;
     }
 
+    // printSubsets(B,k,i)
+    // Recursively finds the solutions to n choose k and prints them.
     static void printSubsets(int[] B, int k, int i) {
-        //System.out.println("I am on iter " + i);
-        //System.out.println("k = "+k);
-        //System.out.println("B.length: "+B.length);
+        //if k is 0 then print out the solution
+        //if k is greater than the array then go back up a level
         if(k==0){
             System.out.println(setToString(B));
             return;
@@ -41,32 +39,45 @@ class Subset{
         if(k>B.length-i){
             return;
         }
+
+        // clone A so we can change it and pass in the correct array
+        // to the next recursive level
         int[] A = B.clone();
         A[i] = 1;
-        /*System.out.print("A is: ");
-        for(int x = 1; x < B.length; x++){
-            System.out.print(A[x]);
-        }
-        System.out.println();
-        System.out.print("B is: ");
-        for(int x = 1; x < B.length; x++){
-            System.out.print(B[x]);
-        }
-        System.out.println();*/
+
+        // call the correct function recursively
         printSubsets(A, k-1, i+1);
         printSubsets(B,k,i+1);
     }
+    
     public static void main(String[] args){
-        /*int[] arr = {1,2,3,4};
-        System.out.println(arr);
-        for(int i = 0; i < arr.length;i++){
-            System.out.print(arr[i]);
+        int n = 0;
+        int k = 0;
+
+        // make sure the proper input is put in
+        if(args.length != 2){
+            printErr();
+            System.exit(1);
         }
-        arr[1] = 10;
-        for(int i = 0; i < arr.length;i++){
-            System.out.print(arr[i]);
-        }*/
-        int[] B = {0,0,0,0};
-        printSubsets(B, 0, 1);
+        try{
+            n = Integer.parseInt(args[0]);
+        } catch(NumberFormatException e){
+            printErr();
+            System.exit(1);
+        }
+        try{
+            k = Integer.parseInt(args[1]);
+        } catch(NumberFormatException e){
+            printErr();
+            System.exit(1);
+        }
+        if(n < k) {
+            printErr();
+            System.exit(1);
+        }
+
+        // initialize array and call recursive function
+        int[] B = new int[n+1];
+        printSubsets(B, k, 1);
     }
 }
